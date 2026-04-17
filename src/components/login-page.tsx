@@ -81,7 +81,7 @@ export function LoginPage() {
   const Logo = () => (
     <Link to="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
       <Package className="h-5 w-5 text-landing-dark" />
-      <span className="text-[15px] font-medium text-landing-dark tracking-tight">AssetWise</span>
+      <span className="text-[15px] font-medium text-landing-dark tracking-tight">Fountor</span>
     </Link>
   );
 

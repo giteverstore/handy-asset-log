@@ -37,7 +37,7 @@ export function LandingDemoDashboard() {
       {/* Sidebar hint + header */}
       <div className="flex items-center gap-2 mb-1">
         <Package className="h-4 w-4" />
-        <span className="font-medium text-sm tracking-tight">AssetWise</span>
+        <span className="font-medium text-sm tracking-tight">Fountor</span>
         <span className="text-landing-light-muted text-xs ml-2">/ Dashboard</span>
       </div>
 

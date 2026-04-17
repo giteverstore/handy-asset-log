@@ -98,7 +98,7 @@ function PrimaryCTA({ children, className = '' }: { children: React.ReactNode; c
 
 function OutlineCTA({ children }: { children: React.ReactNode }) {
   return (
-    <Link to="/" hash="login" className="inline-block">
+    <Link to="/waitlist" className="inline-block">
       <Button
         size="lg"
         variant="outline"
@@ -126,7 +126,7 @@ function HeroMockUI() {
       <div className="p-5 sm:p-7">
         {/* helper line */}
         <p className="text-[12px] text-fountor-ink-muted mb-2 ml-1">Describe your startup in one sentence</p>
-        
+
         {/* chat input */}
         <div className="rounded-xl border border-fountor-border bg-fountor-surface px-4 py-3 flex items-center gap-3">
           <Sparkles className="h-4 w-4 text-fountor-orange shrink-0" />
@@ -271,7 +271,7 @@ export function LandingPage() {
             <Link to="/" hash="login" className="text-[14px] text-fountor-ink-muted hover:text-fountor-ink transition-colors">
               Sign in
             </Link>
-            <Link to="/" hash="login">
+            <Link to="/waitlist">
               <Button size="sm" className="rounded-full bg-fountor-orange text-white hover:bg-fountor-orange-hover font-medium text-[13.5px] h-9 px-4">
                 Join Waitlist
               </Button>
@@ -289,16 +289,20 @@ export function LandingPage() {
           </div>
 
           <h1 className="text-[34px] sm:text-[48px] lg:text-[58px] font-semibold tracking-[-0.02em] text-fountor-ink leading-[1.05] max-w-[920px] mx-auto">
-            Find Investors Who Actually Invest in You —{' '}
+            Find Investors Already Looking for Startups Like Yours - {' '}
             <span className="text-fountor-ink-muted">Without Cold Outreach</span>
           </h1>
+
+          <p className="text-sm text-gray-500 mt-2">
+            No cold emails. No guesswork. Just relevant investor matches in seconds.
+          </p>
 
           <p className="mx-auto mt-6 max-w-xl text-[16.5px] sm:text-[17.5px] text-fountor-ink-muted leading-relaxed">
             Describe your startup, and get matched with investors, grants, and incubators tailored to your needs.
           </p>
 
           <div className="mt-9 flex items-center justify-center gap-3 flex-wrap">
-            <PrimaryCTA>Try Demo <ArrowRight className="h-4 w-4" /></PrimaryCTA>
+            <PrimaryCTA>Get Started <ArrowRight className="h-4 w-4" /></PrimaryCTA>
             <OutlineCTA>Join Waitlist</OutlineCTA>
           </div>
         </div>
@@ -313,7 +317,7 @@ export function LandingPage() {
       <section className="border-y border-fountor-border bg-fountor-surface py-8">
         <div className="mx-auto max-w-[1180px] px-4 sm:px-6 lg:px-8">
           <p className="text-center text-[12px] text-fountor-ink-muted mb-5 tracking-wide">
-            Built for modern startup ecosystems
+            Inspired by leading startup ecosystems
           </p>
           <div className="flex items-center justify-center gap-6 sm:gap-12 flex-wrap opacity-60">
             {['Y Combinator', 'Sequoia', 'Accel', 'Blume', '100X.VC'].map((l) => (
@@ -331,7 +335,7 @@ export function LandingPage() {
           <div className="max-w-2xl mb-14">
             <p className="text-[13px] font-medium text-fountor-orange mb-3 uppercase tracking-wide">The problem</p>
             <h2 className="text-[30px] sm:text-[40px] font-semibold text-fountor-ink leading-[1.1] tracking-[-0.015em]">
-              Great startups fail to raise — not because they\'re bad, but because they never reach the right investors.
+              Great startups don’t fail - they just don’t reach the right investors.
             </h2>
           </div>
           <div className="grid gap-4 sm:grid-cols-3">
@@ -500,7 +504,7 @@ export function LandingPage() {
             Join the waitlist, or try the live demo and see your matches in under 60 seconds.
           </p>
           <div className="mt-9 flex items-center justify-center gap-3 flex-wrap">
-            <PrimaryCTA>Try Demo <ArrowRight className="h-4 w-4" /></PrimaryCTA>
+            <PrimaryCTA>Get Started <ArrowRight className="h-4 w-4" /></PrimaryCTA>
             <OutlineCTA>Join Waitlist</OutlineCTA>
           </div>
         </div>

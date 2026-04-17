@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as WaitlistRouteImport } from './routes/waitlist'
 import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as EmployeesRouteImport } from './routes/employees'
@@ -19,6 +20,11 @@ import { Route as AssetsNewRouteImport } from './routes/assets.new'
 import { Route as AssetsAssetIdRouteImport } from './routes/assets.$assetId'
 import { Route as AssetsAssetIdEditRouteImport } from './routes/assets.$assetId.edit'
 
+const WaitlistRoute = WaitlistRouteImport.update({
+  id: '/waitlist',
+  path: '/waitlist',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SettingsRoute = SettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
@@ -71,6 +77,7 @@ export interface FileRoutesByFullPath {
   '/employees': typeof EmployeesRoute
   '/reset-password': typeof ResetPasswordRoute
   '/settings': typeof SettingsRoute
+  '/waitlist': typeof WaitlistRoute
   '/assets/$assetId': typeof AssetsAssetIdRouteWithChildren
   '/assets/new': typeof AssetsNewRoute
   '/assets/': typeof AssetsIndexRoute
@@ -82,6 +89,7 @@ export interface FileRoutesByTo {
   '/employees': typeof EmployeesRoute
   '/reset-password': typeof ResetPasswordRoute
   '/settings': typeof SettingsRoute
+  '/waitlist': typeof WaitlistRoute
   '/assets/$assetId': typeof AssetsAssetIdRouteWithChildren
   '/assets/new': typeof AssetsNewRoute
   '/assets': typeof AssetsIndexRoute
@@ -94,6 +102,7 @@ export interface FileRoutesById {
   '/employees': typeof EmployeesRoute
   '/reset-password': typeof ResetPasswordRoute
   '/settings': typeof SettingsRoute
+  '/waitlist': typeof WaitlistRoute
   '/assets/$assetId': typeof AssetsAssetIdRouteWithChildren
   '/assets/new': typeof AssetsNewRoute
   '/assets/': typeof AssetsIndexRoute
@@ -107,6 +116,7 @@ export interface FileRouteTypes {
     | '/employees'
     | '/reset-password'
     | '/settings'
+    | '/waitlist'
     | '/assets/$assetId'
     | '/assets/new'
     | '/assets/'
@@ -118,6 +128,7 @@ export interface FileRouteTypes {
     | '/employees'
     | '/reset-password'
     | '/settings'
+    | '/waitlist'
     | '/assets/$assetId'
     | '/assets/new'
     | '/assets'
@@ -129,6 +140,7 @@ export interface FileRouteTypes {
     | '/employees'
     | '/reset-password'
     | '/settings'
+    | '/waitlist'
     | '/assets/$assetId'
     | '/assets/new'
     | '/assets/'
@@ -141,6 +153,7 @@ export interface RootRouteChildren {
   EmployeesRoute: typeof EmployeesRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   SettingsRoute: typeof SettingsRoute
+  WaitlistRoute: typeof WaitlistRoute
   AssetsAssetIdRoute: typeof AssetsAssetIdRouteWithChildren
   AssetsNewRoute: typeof AssetsNewRoute
   AssetsIndexRoute: typeof AssetsIndexRoute
@@ -148,6 +161,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/waitlist': {
+      id: '/waitlist'
+      path: '/waitlist'
+      fullPath: '/waitlist'
+      preLoaderRoute: typeof WaitlistRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/settings': {
       id: '/settings'
       path: '/settings'
@@ -232,6 +252,7 @@ const rootRouteChildren: RootRouteChildren = {
   EmployeesRoute: EmployeesRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   SettingsRoute: SettingsRoute,
+  WaitlistRoute: WaitlistRoute,
   AssetsAssetIdRoute: AssetsAssetIdRouteWithChildren,
   AssetsNewRoute: AssetsNewRoute,
   AssetsIndexRoute: AssetsIndexRoute,

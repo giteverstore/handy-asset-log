@@ -52,7 +52,7 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
         <div className="flex h-14 items-center justify-between gap-2 border-b border-sidebar-border px-4">
           <div className="flex items-center gap-2">
             <Package className="h-5 w-5 text-sidebar-foreground" />
-            <span className="text-sm font-semibold text-sidebar-foreground">AssetWise</span>
+            <span className="text-sm font-semibold text-sidebar-foreground">Fountor</span>
           </div>
           <Button
             variant="ghost"
