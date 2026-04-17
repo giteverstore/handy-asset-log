@@ -1,116 +1,49 @@
 
+The user wants the same Fountor landing page I previously planned, with a more specific mock UI (Indian VC examples with INR amounts). The previous plan was declined — likely because it was too verbose. I'll keep this one tight.
 
-## Plan: Security hardening with RLS and user roles
+## Plan
 
-### Current state
-- RLS is enabled on all 4 tables (good)
-- All policies are wide-open: `for all to authenticated using (true) with check (true)`
-- No user_roles table exists
-- No role-checking functions exist
-- AI chat edge function uses service_role_key (bypasses RLS — no changes needed there)
+**One file rewrite:** `src/components/landing-page.tsx` — full replacement for Fountor.
 
-### What this changes
+**Design tokens:** Add 3 CSS vars to `src/styles.css` (`--fountor-orange: oklch(0.7 0.18 50)`, soft tint, dark text). White bg, orange accent only on CTAs, badges, and key icons. Onest font (already loaded).
 
-**1. Database migration — new tables and functions**
+**Sections:**
 
-Create `app_role` enum, `user_roles` table, and `has_role` security definer function:
+1. **Header** (sticky, white, thin border) — Fountor wordmark + Sparkles icon (orange) on left; "Sign in" link + orange "Join Waitlist" button on right.
 
-```sql
--- Role enum
-CREATE TYPE public.app_role AS ENUM ('admin', 'moderator', 'user');
+2. **Hero** — Pill badge "AI-powered investor matching". H1 "Find the Right Investors for Your Startup — Without Cold Outreach". Subtext as given. Two CTAs: orange filled "Try Demo" + outline "Join Waitlist". Both link to `/#login`.
 
--- Roles table (NOT on profiles)
-CREATE TABLE public.user_roles (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE NOT NULL,
-  role app_role NOT NULL,
-  created_at TIMESTAMPTZ DEFAULT now(),
-  UNIQUE (user_id, role)
-);
+3. **Hero mock UI** (built in JSX, no images):
+   - Browser-style card with chat input row showing typed text: "AgriTech startup, pre-seed, building soil sensors for smallholder farmers in India"
+   - Below: "3 matches found" + 3 investor cards:
+     - **Omnivore** — AgriTech VC — ₹1Cr–5Cr — Seed–Series A — 96% match
+     - **Ankur Capital** — Climate / Agri — ₹50L–3Cr — Seed — 92% match
+     - **Sequoia Capital India** — Tech — ₹5Cr+ — Series A+ — 84% match
+   - Each card: avatar circle with initials, name, sector chip, ticket size, stage, match % in orange.
 
-ALTER TABLE public.user_roles ENABLE ROW LEVEL SECURITY;
+4. **Logo strip** — "Trusted by founders backed by" + grayscale text logos: YC, Sequoia, Accel, Blume, 100X.
 
--- Users can only read their own roles
-CREATE POLICY "Users can view own roles"
-  ON public.user_roles FOR SELECT
-  TO authenticated
-  USING (auth.uid() = user_id);
+5. **Problem** — H2 "Fundraising is broken". 3 cards (icons: UserX, Filter, TrendingDown):
+   - Founders struggle to reach the right investors
+   - Investors waste time filtering irrelevant pitches
+   - Opportunities are lost due to poor matching
 
--- Security definer function (avoids RLS recursion)
-CREATE OR REPLACE FUNCTION public.has_role(_user_id UUID, _role app_role)
-RETURNS BOOLEAN
-LANGUAGE sql STABLE SECURITY DEFINER
-SET search_path = public
-AS $$
-  SELECT EXISTS (
-    SELECT 1 FROM public.user_roles
-    WHERE user_id = _user_id AND role = _role
-  )
-$$;
-```
+6. **Solution** — Two-column. Left: H2 "Intelligent matching, built for outcomes" + paragraph on stage/sector/intent matching. Right: small "Match score" visual card showing Stage / Sector / Intent rows with orange progress bars.
 
-**2. Database migration — replace existing RLS policies**
+7. **How it works** — 3 numbered steps (01/02/03), icons MessageSquare, Sparkles, Send: Describe your startup → Get matched → Connect and pitch.
 
-Drop the 4 catch-all policies and replace with granular per-operation policies:
+8. **Product showcase** — 2x2 grid of feature cards, each with mini mockup:
+   - AI Matching (chat bubble preview)
+   - Investor Discovery (list rows + filter chips)
+   - Investor Details (single profile with ticket/stage/sector pills)
+   - Ecosystem Tools (tag grid: Grants, Incubators, Co-founders, Accelerators)
 
-For **asset_categories**, **employees**, **assets**, **asset_assignments**:
-- `SELECT` — all authenticated users (internal staff all need read access)
-- `INSERT` — all authenticated users (staff create assets/employees)
-- `UPDATE` — all authenticated users OR restrict to admins (for categories/sensitive ops)
-- `DELETE` — admin only via `has_role(auth.uid(), 'admin')`
+9. **Final CTA** — Centered "Start finding the right investors today" + subtext + same two buttons.
 
-Specific policies:
+10. **Footer** — Minimal: Fountor wordmark + © year + Privacy/Terms/Contact links (non-functional).
 
-| Table | SELECT | INSERT | UPDATE | DELETE |
-|---|---|---|---|---|
-| asset_categories | authenticated | authenticated | authenticated | admin only |
-| employees | authenticated | authenticated | authenticated | admin only |
-| assets | authenticated | authenticated (with `created_by = auth.uid()` check) | authenticated | admin only |
-| asset_assignments | authenticated | authenticated | authenticated | admin only |
+**Routing:** No new routes. Both CTAs use `<Link to="/" hash="login">` (matches existing index.tsx pattern that shows LoginPage when `#login`).
 
-The `assets` INSERT policy adds `WITH CHECK (created_by = auth.uid())` to ensure users can't spoof the creator.
+**Out of scope:** Functional waitlist form, in-app rebrand (sidebar/dashboard still AssetWise), real demo. CTAs send users to existing login.
 
-**3. Auto-assign 'user' role on signup**
-
-Create a trigger function that assigns the default `'user'` role when a new user signs up:
-
-```sql
-CREATE OR REPLACE FUNCTION public.handle_new_user_role()
-RETURNS TRIGGER LANGUAGE plpgsql SECURITY DEFINER
-SET search_path = public
-AS $$
-BEGIN
-  INSERT INTO public.user_roles (user_id, role) VALUES (NEW.id, 'user');
-  RETURN NEW;
-END;
-$$;
-
-CREATE TRIGGER on_auth_user_created_role
-  AFTER INSERT ON auth.users
-  FOR EACH ROW EXECUTE FUNCTION public.handle_new_user_role();
-```
-
-**4. Seed existing users with roles**
-
-Use the insert tool to give all existing users the `'user'` role, and optionally promote one to `'admin'`.
-
-**5. Add role-check hook (`src/lib/hooks.ts`)**
-
-Add a `useUserRole` query hook so the UI can check the current user's role for conditional rendering (e.g., hide delete buttons for non-admins). This is for UX only — the real enforcement is RLS.
-
-**6. No changes to AI chat**
-
-The edge function uses `SUPABASE_SERVICE_ROLE_KEY` which bypasses RLS entirely. No modifications needed.
-
-### Files changed
-
-| File | Action |
-|---|---|
-| Migration SQL | Create — roles table, has_role function, replace RLS policies, trigger |
-| `src/lib/hooks.ts` | Edit — add `useUserRole` hook |
-
-### What stays the same
-- All existing CRUD operations continue working for authenticated users
-- AI chat edge function untouched
-- No component changes needed (delete restrictions will surface as toast errors from RLS denials)
-
+**No new dependencies.**
