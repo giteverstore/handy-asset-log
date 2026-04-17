@@ -12,6 +12,7 @@ import {
   Building2,
   Target,
   Check,
+  XCircle,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
@@ -25,6 +26,7 @@ const investors = [
     ticket: '₹1Cr – 5Cr',
     stage: 'Seed – Series A',
     match: 96,
+    portfolio: 'DeHaat, Stellapps',
   },
   {
     name: 'Ankur Capital',
@@ -33,6 +35,7 @@ const investors = [
     ticket: '₹50L – 3Cr',
     stage: 'Seed',
     match: 92,
+    portfolio: 'Ecozen, Tartan',
   },
   {
     name: 'Sequoia Capital India',
@@ -41,6 +44,7 @@ const investors = [
     ticket: '₹5Cr+',
     stage: 'Series A+',
     match: 84,
+    portfolio: 'Zomato, OYO, Byju\'s',
   },
 ];
 
@@ -64,7 +68,7 @@ const problems = [
 
 const steps = [
   { num: '01', icon: MessageSquare, title: 'Describe your startup', desc: 'Tell us your stage, sector, and what you need — in plain English.' },
-  { num: '02', icon: Sparkles, title: 'Get matched with relevant investors', desc: 'Our AI ranks investors, grants, and incubators by real fit.' },
+  { num: '02', icon: Sparkles, title: 'Get a ranked list of investors most likely to invest', desc: 'Our AI ranks investors, grants, and incubators by real fit.' },
   { num: '03', icon: Send, title: 'Connect and pitch', desc: 'Reach out with context — and a head-start on relevance.' },
 ];
 
@@ -120,6 +124,9 @@ function HeroMockUI() {
       </div>
 
       <div className="p-5 sm:p-7">
+        {/* helper line */}
+        <p className="text-[12px] text-fountor-ink-muted mb-2 ml-1">Describe your startup in one sentence</p>
+        
         {/* chat input */}
         <div className="rounded-xl border border-fountor-border bg-fountor-surface px-4 py-3 flex items-center gap-3">
           <Sparkles className="h-4 w-4 text-fountor-orange shrink-0" />
@@ -155,6 +162,9 @@ function HeroMockUI() {
                 </div>
                 <p className="text-[12px] text-fountor-ink-muted mt-0.5">
                   {inv.ticket} · {inv.stage}
+                </p>
+                <p className="text-[11px] text-fountor-ink-muted/80 mt-1">
+                  Invested in: {inv.portfolio}
                 </p>
               </div>
               <div className="text-right shrink-0">
@@ -244,7 +254,11 @@ const showcase = [
   },
 ];
 
-const trustLogos = ['Y Combinator', 'Sequoia', 'Accel', 'Blume', '100X.VC'];
+const whyFountorPoints = [
+  { icon: XCircle, text: 'No cold emails' },
+  { icon: XCircle, text: 'No guessing investor fit' },
+  { icon: XCircle, text: 'No wasted introductions' },
+];
 
 export function LandingPage() {
   return (
@@ -275,7 +289,7 @@ export function LandingPage() {
           </div>
 
           <h1 className="text-[34px] sm:text-[48px] lg:text-[58px] font-semibold tracking-[-0.02em] text-fountor-ink leading-[1.05] max-w-[920px] mx-auto">
-            Find the Right Investors for Your Startup —{' '}
+            Find Investors Who Actually Invest in You —{' '}
             <span className="text-fountor-ink-muted">Without Cold Outreach</span>
           </h1>
 
@@ -299,10 +313,10 @@ export function LandingPage() {
       <section className="border-y border-fountor-border bg-fountor-surface py-8">
         <div className="mx-auto max-w-[1180px] px-4 sm:px-6 lg:px-8">
           <p className="text-center text-[12px] text-fountor-ink-muted mb-5 tracking-wide">
-            Trusted by founders backed by
+            Built for modern startup ecosystems
           </p>
           <div className="flex items-center justify-center gap-6 sm:gap-12 flex-wrap opacity-60">
-            {trustLogos.map((l) => (
+            {['Y Combinator', 'Sequoia', 'Accel', 'Blume', '100X.VC'].map((l) => (
               <span key={l} className="text-[14px] sm:text-[15px] font-medium text-fountor-ink-muted">
                 {l}
               </span>
@@ -317,11 +331,8 @@ export function LandingPage() {
           <div className="max-w-2xl mb-14">
             <p className="text-[13px] font-medium text-fountor-orange mb-3 uppercase tracking-wide">The problem</p>
             <h2 className="text-[30px] sm:text-[40px] font-semibold text-fountor-ink leading-[1.1] tracking-[-0.015em]">
-              Fundraising is broken
+              Great startups fail to raise — not because they\'re bad, but because they never reach the right investors.
             </h2>
-            <p className="mt-4 text-[16.5px] text-fountor-ink-muted leading-relaxed">
-              Matching the right capital with the right startup still relies on luck, networks, and noise.
-            </p>
           </div>
           <div className="grid gap-4 sm:grid-cols-3">
             {problems.map((p) => (
@@ -347,8 +358,7 @@ export function LandingPage() {
                 Intelligent matching, built for outcomes
               </h2>
               <p className="mt-5 text-[16.5px] text-fountor-ink-muted leading-relaxed">
-                Fountor reads your startup's stage, sector, and intent — then scores every investor, grant, and incubator
-                against your real fit. No more spraying decks. No more guessing thesis. Just relevant introductions.
+                Fountor understands your startup — and matches you with investors who are actively looking for what you\'re building.
               </p>
               <ul className="mt-6 space-y-3">
                 {[
@@ -436,7 +446,7 @@ export function LandingPage() {
           <div className="max-w-2xl mb-14">
             <p className="text-[13px] font-medium text-fountor-orange mb-3 uppercase tracking-wide">Product</p>
             <h2 className="text-[30px] sm:text-[40px] font-semibold text-fountor-ink leading-[1.1] tracking-[-0.015em]">
-              Everything you need to fundraise smarter
+              Fundraising, rethought from the ground up
             </h2>
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
@@ -458,14 +468,33 @@ export function LandingPage() {
         </div>
       </section>
 
+      {/* Why Fountor */}
+      <section className="py-20 sm:py-28">
+        <div className="mx-auto max-w-[1180px] px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-2xl mx-auto">
+            <h2 className="text-[30px] sm:text-[40px] font-semibold text-fountor-ink leading-[1.1] tracking-[-0.015em] mb-10">
+              Why Fountor
+            </h2>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-12">
+              {whyFountorPoints.map((point) => (
+                <div key={point.text} className="flex items-center gap-2.5 text-[16px] text-fountor-ink">
+                  <point.icon className="h-4 w-4 text-fountor-orange shrink-0" strokeWidth={2.5} />
+                  <span>{point.text}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Final CTA */}
-      <section className="py-24 sm:py-32">
+      <section className="py-24 sm:py-32 bg-fountor-surface border-t border-fountor-border">
         <div className="mx-auto max-w-[760px] px-4 sm:px-6 lg:px-8 text-center">
           <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-fountor-orange-soft mb-6">
             <Target className="h-5 w-5 text-fountor-orange" strokeWidth={2.2} />
           </div>
           <h2 className="text-[30px] sm:text-[42px] font-semibold text-fountor-ink leading-[1.1] tracking-[-0.015em]">
-            Start finding the right investors today
+            Stop guessing. Start getting the right investor introductions.
           </h2>
           <p className="mt-5 text-[16.5px] text-fountor-ink-muted max-w-md mx-auto leading-relaxed">
             Join the waitlist, or try the live demo and see your matches in under 60 seconds.
