@@ -141,6 +141,16 @@
   --landing-accent: oklch(0.15 0.005 60);
   --landing-accent-soft: oklch(0.25 0.005 60);
   --landing-grid: oklch(0.88 0.008 85);
+
+  /* Fountor brand tokens */
+  --fountor-bg: oklch(1 0 0);
+  --fountor-surface: oklch(0.985 0 0);
+  --fountor-ink: oklch(0.18 0.005 270);
+  --fountor-ink-muted: oklch(0.5 0.01 270);
+  --fountor-border: oklch(0.92 0.005 270);
+  --fountor-orange: oklch(0.7 0.18 50);
+  --fountor-orange-hover: oklch(0.64 0.19 45);
+  --fountor-orange-soft: oklch(0.97 0.04 60);
 }
 
 @theme inline {
@@ -152,6 +162,15 @@
   --color-landing-accent: var(--landing-accent);
   --color-landing-accent-soft: var(--landing-accent-soft);
   --color-landing-grid: var(--landing-grid);
+
+  --color-fountor-bg: var(--fountor-bg);
+  --color-fountor-surface: var(--fountor-surface);
+  --color-fountor-ink: var(--fountor-ink);
+  --color-fountor-ink-muted: var(--fountor-ink-muted);
+  --color-fountor-border: var(--fountor-border);
+  --color-fountor-orange: var(--fountor-orange);
+  --color-fountor-orange-hover: var(--fountor-orange-hover);
+  --color-fountor-orange-soft: var(--fountor-orange-soft);
 }
 
 @layer base {
