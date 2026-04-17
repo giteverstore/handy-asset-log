@@ -1,240 +1,492 @@
 import { Link } from '@tanstack/react-router';
-import { Package, ArrowRight, BarChart3, Users, Shield, Zap, Search, ChevronRight, CheckCircle2, Lock, Eye, Database, Server } from 'lucide-react';
+import {
+  Sparkles,
+  ArrowRight,
+  UserX,
+  Filter,
+  TrendingDown,
+  MessageSquare,
+  Send,
+  Search,
+  Users,
+  Building2,
+  Target,
+  Check,
+} from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { LandingDemoDashboard } from '@/components/landing-demo-dashboard';
 
-const features = [
+const font = "'Onest', system-ui, sans-serif";
+
+const investors = [
   {
-    icon: Package,
-    title: 'Asset management',
-    description: 'Log every piece of equipment with purchase details, condition notes, and serial numbers.',
-    stat: '100%',
-    statLabel: 'asset visibility',
+    name: 'Omnivore',
+    initials: 'OM',
+    sector: 'AgriTech VC',
+    ticket: '₹1Cr – 5Cr',
+    stage: 'Seed – Series A',
+    match: 96,
   },
   {
-    icon: Users,
-    title: 'Employee assignments',
-    description: 'Assign assets to team members and track full assignment history over time.',
-    stat: '2x',
-    statLabel: 'faster tracking',
+    name: 'Ankur Capital',
+    initials: 'AC',
+    sector: 'Climate / Agri',
+    ticket: '₹50L – 3Cr',
+    stage: 'Seed',
+    match: 92,
   },
   {
-    icon: BarChart3,
-    title: 'Depreciation tracking',
-    description: 'Automatic straight-line depreciation calculations with visual book value charts.',
-    stat: '0',
-    statLabel: 'manual calculations',
+    name: 'Sequoia Capital India',
+    initials: 'SC',
+    sector: 'Tech',
+    ticket: '₹5Cr+',
+    stage: 'Series A+',
+    match: 84,
+  },
+];
+
+const problems = [
+  {
+    icon: UserX,
+    title: 'Founders struggle to reach the right investors',
+    description: 'Cold emails go unanswered. Warm intros are gated by who you already know.',
   },
   {
-    icon: Search,
-    title: 'AI-powered search',
-    description: 'Ask questions about your assets and employees using our built-in AI chat assistant.',
-    stat: 'AI',
-    statLabel: 'powered insights',
+    icon: Filter,
+    title: 'Investors waste time filtering irrelevant pitches',
+    description: 'Inboxes overflow with decks that don\'t match thesis, stage, or sector.',
+  },
+  {
+    icon: TrendingDown,
+    title: 'Opportunities are lost due to poor matching',
+    description: 'Great startups stall. Great capital sits idle. Both sides lose.',
   },
 ];
 
 const steps = [
+  { num: '01', icon: MessageSquare, title: 'Describe your startup', desc: 'Tell us your stage, sector, and what you need — in plain English.' },
+  { num: '02', icon: Sparkles, title: 'Get matched with relevant investors', desc: 'Our AI ranks investors, grants, and incubators by real fit.' },
+  { num: '03', icon: Send, title: 'Connect and pitch', desc: 'Reach out with context — and a head-start on relevance.' },
+];
+
+function Wordmark() {
+  return (
+    <div className="flex items-center gap-2">
+      <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-fountor-orange-soft">
+        <Sparkles className="h-4 w-4 text-fountor-orange" strokeWidth={2.4} />
+      </div>
+      <span className="text-[17px] font-semibold tracking-tight text-fountor-ink">Fountor</span>
+    </div>
+  );
+}
+
+function PrimaryCTA({ children, className = '' }: { children: React.ReactNode; className?: string }) {
+  return (
+    <Link to="/" hash="login" className={`inline-block ${className}`}>
+      <Button
+        size="lg"
+        className="rounded-full gap-2 min-h-[44px] px-6 bg-fountor-orange text-white hover:bg-fountor-orange-hover shadow-[0_4px_14px_-4px_oklch(0.7_0.18_50/_0.4)] font-medium text-[14.5px] transition-all"
+      >
+        {children}
+      </Button>
+    </Link>
+  );
+}
+
+function OutlineCTA({ children }: { children: React.ReactNode }) {
+  return (
+    <Link to="/" hash="login" className="inline-block">
+      <Button
+        size="lg"
+        variant="outline"
+        className="rounded-full min-h-[44px] px-6 bg-white border-fountor-border text-fountor-ink hover:bg-fountor-surface font-medium text-[14.5px]"
+      >
+        {children}
+      </Button>
+    </Link>
+  );
+}
+
+function HeroMockUI() {
+  return (
+    <div className="mx-auto max-w-[760px] rounded-2xl border border-fountor-border bg-white shadow-[0_24px_60px_-30px_oklch(0.18_0.005_270/_0.25)] overflow-hidden">
+      {/* window chrome */}
+      <div className="flex items-center gap-1.5 px-4 py-3 border-b border-fountor-border bg-fountor-surface">
+        <span className="h-2.5 w-2.5 rounded-full bg-fountor-border" />
+        <span className="h-2.5 w-2.5 rounded-full bg-fountor-border" />
+        <span className="h-2.5 w-2.5 rounded-full bg-fountor-border" />
+        <div className="ml-3 flex-1 text-center">
+          <span className="text-[11px] text-fountor-ink-muted">fountor.ai / match</span>
+        </div>
+      </div>
+
+      <div className="p-5 sm:p-7">
+        {/* chat input */}
+        <div className="rounded-xl border border-fountor-border bg-fountor-surface px-4 py-3 flex items-center gap-3">
+          <Sparkles className="h-4 w-4 text-fountor-orange shrink-0" />
+          <p className="text-[13.5px] sm:text-[14px] text-fountor-ink leading-snug text-left">
+            AgriTech startup, pre-seed, building soil sensors for smallholder farmers in India
+          </p>
+        </div>
+
+        {/* result count */}
+        <div className="mt-5 flex items-center justify-between">
+          <p className="text-[13px] text-fountor-ink-muted">
+            <span className="font-medium text-fountor-ink">3 matches</span> found
+          </p>
+          <span className="text-[11px] text-fountor-ink-muted hidden sm:inline">Sorted by relevance</span>
+        </div>
+
+        {/* investor cards */}
+        <div className="mt-3 space-y-2.5">
+          {investors.map((inv) => (
+            <div
+              key={inv.name}
+              className="rounded-xl border border-fountor-border bg-white px-4 py-3.5 flex items-center gap-3 sm:gap-4 transition-all hover:border-fountor-orange/40"
+            >
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-fountor-surface border border-fountor-border text-[12px] font-semibold text-fountor-ink">
+                {inv.initials}
+              </div>
+              <div className="flex-1 min-w-0 text-left">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <p className="text-[14px] font-semibold text-fountor-ink truncate">{inv.name}</p>
+                  <span className="text-[10.5px] px-1.5 py-0.5 rounded bg-fountor-surface text-fountor-ink-muted border border-fountor-border">
+                    {inv.sector}
+                  </span>
+                </div>
+                <p className="text-[12px] text-fountor-ink-muted mt-0.5">
+                  {inv.ticket} · {inv.stage}
+                </p>
+              </div>
+              <div className="text-right shrink-0">
+                <p className="text-[15px] font-semibold text-fountor-orange leading-none">{inv.match}%</p>
+                <p className="text-[10px] text-fountor-ink-muted mt-1">match</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+const showcase = [
   {
-    number: '01',
-    title: 'Add your assets',
-    description: 'Enter equipment details including purchase cost, date, condition, and category. Import in bulk via CSV or add one at a time.',
+    icon: Sparkles,
+    title: 'AI Matching',
+    desc: 'Describe your startup in plain English. Get a ranked shortlist in seconds.',
+    visual: (
+      <div className="space-y-2">
+        <div className="rounded-lg bg-fountor-surface border border-fountor-border px-3 py-2 text-[11.5px] text-fountor-ink">
+          "Pre-seed climate-tech, ₹2Cr round"
+        </div>
+        <div className="rounded-lg bg-fountor-orange-soft border border-fountor-orange/20 px-3 py-2 text-[11.5px] text-fountor-ink">
+          ✓ Found 12 matched investors
+        </div>
+      </div>
+    ),
   },
   {
-    number: '02',
-    title: 'Assign to employees',
-    description: 'Link assets to team members with assignment dates and notes. Track who has what at any moment.',
+    icon: Search,
+    title: 'Investor Discovery',
+    desc: 'Browse a curated database with filters for stage, sector, and ticket size.',
+    visual: (
+      <div className="space-y-1.5">
+        <div className="flex gap-1.5 flex-wrap">
+          {['Seed', 'AgriTech', '₹1–5Cr'].map((t) => (
+            <span key={t} className="text-[10.5px] px-2 py-0.5 rounded-full bg-fountor-surface border border-fountor-border text-fountor-ink-muted">
+              {t}
+            </span>
+          ))}
+        </div>
+        {['Omnivore', 'Ankur Capital', 'Beenext'].map((n) => (
+          <div key={n} className="flex items-center justify-between rounded-md bg-fountor-surface px-2.5 py-1.5">
+            <span className="text-[11.5px] text-fountor-ink">{n}</span>
+            <span className="text-[10px] text-fountor-ink-muted">View</span>
+          </div>
+        ))}
+      </div>
+    ),
   },
   {
-    number: '03',
-    title: 'Track & monitor',
-    description: 'View real-time dashboards showing asset values, condition breakdowns, and depreciation schedules.',
+    icon: Building2,
+    title: 'Investor Details',
+    desc: 'Ticket size, stage, sector focus, recent deals — everything before you pitch.',
+    visual: (
+      <div className="rounded-lg border border-fountor-border p-3">
+        <div className="flex items-center gap-2 mb-2">
+          <div className="h-7 w-7 rounded-full bg-fountor-surface border border-fountor-border flex items-center justify-center text-[10px] font-semibold text-fountor-ink">OM</div>
+          <span className="text-[12px] font-semibold text-fountor-ink">Omnivore</span>
+        </div>
+        <div className="grid grid-cols-3 gap-1.5">
+          {[['Ticket', '₹1–5Cr'], ['Stage', 'Seed'], ['Sector', 'Agri']].map(([l, v]) => (
+            <div key={l} className="rounded bg-fountor-surface px-2 py-1.5">
+              <p className="text-[9px] text-fountor-ink-muted uppercase tracking-wide">{l}</p>
+              <p className="text-[11px] text-fountor-ink font-medium">{v}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    ),
   },
   {
-    number: '04',
-    title: 'Get AI insights',
-    description: 'Use the AI chat to ask questions about your inventory — find assets, check assignments, and analyze trends.',
+    icon: Users,
+    title: 'Ecosystem Tools',
+    desc: 'Beyond capital — discover grants, incubators, accelerators, and co-founders.',
+    visual: (
+      <div className="grid grid-cols-2 gap-1.5">
+        {['Grants', 'Incubators', 'Accelerators', 'Co-founders'].map((t) => (
+          <div key={t} className="rounded-md bg-fountor-surface border border-fountor-border px-2.5 py-2 text-[11.5px] text-fountor-ink text-center">
+            {t}
+          </div>
+        ))}
+      </div>
+    ),
   },
 ];
 
-const securityFeatures = [
-  { icon: Lock, title: 'Row-level security', description: 'Every query is scoped to authenticated users with role-based access control.' },
-  { icon: Shield, title: 'Role-based access', description: 'Admin, moderator, and user roles with granular permissions per table.' },
-  { icon: Eye, title: 'Audit trail', description: 'Full assignment history and timestamps on every change.' },
-  { icon: Database, title: 'Encrypted at rest', description: 'All data is encrypted and stored securely in the cloud.' },
-  { icon: Server, title: 'Edge functions', description: 'Server-side AI processing keeps your data safe and private.' },
-  { icon: CheckCircle2, title: 'Input validation', description: 'Zod schema validation on all user inputs to prevent bad data.' },
-];
-
-const font = "'Onest', system-ui, sans-serif";
-
-/* Faint dot-grid background */
-const dotGridBg = {
-  backgroundImage: `radial-gradient(circle, var(--landing-grid) 1.2px, transparent 1.2px)`,
-  backgroundSize: '24px 24px',
-};
+const trustLogos = ['Y Combinator', 'Sequoia', 'Accel', 'Blume', '100X.VC'];
 
 export function LandingPage() {
   return (
-    <div className="min-h-screen bg-landing-bg" style={{ fontFamily: font }}>
+    <div className="min-h-screen bg-fountor-bg text-fountor-ink" style={{ fontFamily: font }}>
       {/* Header */}
-      <header className="sticky top-0 z-50 border-b border-landing-grid bg-landing-bg/90 backdrop-blur-sm">
-        <div className="mx-auto flex h-12 max-w-[1200px] items-center justify-between px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-2">
-            <Package className="h-5 w-5 text-landing-dark" />
-            <span className="text-[15px] font-medium text-landing-dark tracking-tight">AssetWise</span>
-          </div>
-          <Link to="/" hash="login" className="text-[14px] text-landing-dark/50 hover:text-landing-dark transition-colors">
-            Sign in <ArrowRight className="inline h-3.5 w-3.5 ml-0.5" />
-          </Link>
-        </div>
-      </header>
-
-      {/* Hero */}
-      <section className="relative overflow-hidden" style={dotGridBg}>
-        <div className="relative mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8 pt-12 sm:pt-16 pb-8 sm:pb-12 text-center">
-          <h1 className="text-[32px] sm:text-[44px] lg:text-[52px] font-normal tracking-tight text-landing-dark leading-[1.1]">
-             The only asset tracker
-          </h1>
-          <h1 className="text-[32px] sm:text-[44px] lg:text-[52px] font-normal tracking-tight text-landing-light-muted leading-[1.1]">
-            built for your team
-          </h1>
-          <p className="mx-auto mt-6 max-w-lg text-[17px] text-landing-light-muted leading-relaxed font-normal">
-            A simple, reliable way to log, assign, and monitor all company equipment, with depreciation tracking and AI-powered insights.
-          </p>
-          <div className="mt-10">
-            <Link to="/" hash="login" className="inline-block">
-              <Button size="lg" className="rounded-full gap-2 min-h-[48px] bg-landing-dark text-landing-light hover:bg-landing-dark-subtle font-medium text-[15px] px-8">
-                Get started <ArrowRight className="h-4 w-4" />
+      <header className="sticky top-0 z-50 border-b border-fountor-border bg-white/85 backdrop-blur-md">
+        <div className="mx-auto flex h-14 max-w-[1180px] items-center justify-between px-4 sm:px-6 lg:px-8">
+          <Wordmark />
+          <div className="flex items-center gap-2 sm:gap-4">
+            <Link to="/" hash="login" className="text-[14px] text-fountor-ink-muted hover:text-fountor-ink transition-colors">
+              Sign in
+            </Link>
+            <Link to="/" hash="login">
+              <Button size="sm" className="rounded-full bg-fountor-orange text-white hover:bg-fountor-orange-hover font-medium text-[13.5px] h-9 px-4">
+                Join Waitlist
               </Button>
             </Link>
           </div>
         </div>
+      </header>
 
-        {/* Demo UI in macOS-style chrome */}
-        <div className="mx-auto max-w-[900px] px-4 sm:px-6 lg:px-8 pb-24 sm:pb-36 relative z-10">
-          <div className="overflow-hidden rounded-xl border border-landing-grid bg-white shadow-sm">
-            {/* macOS title bar */}
-            <div className="flex items-center gap-2 px-4 py-3 border-b border-landing-grid bg-landing-bg/50">
-              <span className="h-3 w-3 rounded-full bg-[oklch(0.65_0.2_25)]" />
-              <span className="h-3 w-3 rounded-full bg-[oklch(0.82_0.16_85)]" />
-              <span className="h-3 w-3 rounded-full bg-[oklch(0.7_0.17_145)]" />
-            </div>
-            <LandingDemoDashboard />
+      {/* Hero */}
+      <section className="relative overflow-hidden">
+        <div className="relative mx-auto max-w-[1180px] px-4 sm:px-6 lg:px-8 pt-16 sm:pt-24 pb-10 text-center">
+          <div className="inline-flex items-center gap-2 rounded-full border border-fountor-border bg-fountor-surface px-3 py-1 mb-7">
+            <span className="h-1.5 w-1.5 rounded-full bg-fountor-orange" />
+            <span className="text-[12.5px] text-fountor-ink-muted">AI-powered investor matching</span>
+          </div>
+
+          <h1 className="text-[34px] sm:text-[48px] lg:text-[58px] font-semibold tracking-[-0.02em] text-fountor-ink leading-[1.05] max-w-[920px] mx-auto">
+            Find the Right Investors for Your Startup —{' '}
+            <span className="text-fountor-ink-muted">Without Cold Outreach</span>
+          </h1>
+
+          <p className="mx-auto mt-6 max-w-xl text-[16.5px] sm:text-[17.5px] text-fountor-ink-muted leading-relaxed">
+            Describe your startup, and get matched with investors, grants, and incubators tailored to your needs.
+          </p>
+
+          <div className="mt-9 flex items-center justify-center gap-3 flex-wrap">
+            <PrimaryCTA>Try Demo <ArrowRight className="h-4 w-4" /></PrimaryCTA>
+            <OutlineCTA>Join Waitlist</OutlineCTA>
+          </div>
+        </div>
+
+        {/* Mock UI */}
+        <div className="mx-auto max-w-[1180px] px-4 sm:px-6 lg:px-8 pb-20 sm:pb-28">
+          <HeroMockUI />
+        </div>
+      </section>
+
+      {/* Trust logos */}
+      <section className="border-y border-fountor-border bg-fountor-surface py-8">
+        <div className="mx-auto max-w-[1180px] px-4 sm:px-6 lg:px-8">
+          <p className="text-center text-[12px] text-fountor-ink-muted mb-5 tracking-wide">
+            Trusted by founders backed by
+          </p>
+          <div className="flex items-center justify-center gap-6 sm:gap-12 flex-wrap opacity-60">
+            {trustLogos.map((l) => (
+              <span key={l} className="text-[14px] sm:text-[15px] font-medium text-fountor-ink-muted">
+                {l}
+              </span>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Features */}
-      <section className="py-20 sm:py-32 lg:py-40 bg-white">
-        <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
-          <div className="mb-16 sm:mb-24">
-            <p className="text-[16px] font-normal text-landing-dark mb-3">Features</p>
-            <h2 className="text-[32px] sm:text-[40px] lg:text-[48px] font-normal text-landing-dark leading-tight tracking-tight">
-              Everything you need to<br className="hidden sm:block" /> manage assets
+      {/* Problem */}
+      <section className="py-20 sm:py-28">
+        <div className="mx-auto max-w-[1180px] px-4 sm:px-6 lg:px-8">
+          <div className="max-w-2xl mb-14">
+            <p className="text-[13px] font-medium text-fountor-orange mb-3 uppercase tracking-wide">The problem</p>
+            <h2 className="text-[30px] sm:text-[40px] font-semibold text-fountor-ink leading-[1.1] tracking-[-0.015em]">
+              Fundraising is broken
             </h2>
-            <p className="mt-4 text-[17px] text-landing-light-muted max-w-xl font-normal">
-              Built for IT managers, office managers, and operations teams who need full visibility into company equipment.
+            <p className="mt-4 text-[16.5px] text-fountor-ink-muted leading-relaxed">
+              Matching the right capital with the right startup still relies on luck, networks, and noise.
             </p>
           </div>
-
-          <div className="grid gap-5 sm:grid-cols-2">
-            {features.map((f) => (
-              <div
-                key={f.title}
-                className="group relative rounded-xl border border-landing-grid bg-landing-bg p-6 sm:p-8 transition-all hover:border-landing-dark/20"
-              >
-                <div className="flex items-start justify-between mb-5">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-landing-dark text-landing-light">
-                    <f.icon className="h-5 w-5" />
-                  </div>
-                  <div className="text-right">
-                    <span className="text-2xl sm:text-3xl font-semibold text-landing-dark">{f.stat}</span>
-                    <p className="text-xs text-landing-light-muted">{f.statLabel}</p>
-                  </div>
+          <div className="grid gap-4 sm:grid-cols-3">
+            {problems.map((p) => (
+              <div key={p.title} className="rounded-2xl border border-fountor-border bg-white p-6 transition-all hover:shadow-[0_8px_24px_-12px_oklch(0.18_0.005_270/_0.15)]">
+                <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-fountor-orange-soft mb-5">
+                  <p.icon className="h-4.5 w-4.5 text-fountor-orange" strokeWidth={2.2} />
                 </div>
-                <h3 className="text-[18px] font-semibold text-landing-dark">{f.title}</h3>
-                <p className="mt-1.5 text-[16px] text-landing-light-muted leading-relaxed font-normal">{f.description}</p>
+                <h3 className="text-[16px] font-semibold text-fountor-ink leading-snug">{p.title}</h3>
+                <p className="mt-2 text-[14.5px] text-fountor-ink-muted leading-relaxed">{p.description}</p>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Solution */}
+      <section className="py-20 sm:py-28 bg-fountor-surface border-y border-fountor-border">
+        <div className="mx-auto max-w-[1180px] px-4 sm:px-6 lg:px-8">
+          <div className="grid gap-12 lg:grid-cols-2 lg:gap-20 items-center">
+            <div>
+              <p className="text-[13px] font-medium text-fountor-orange mb-3 uppercase tracking-wide">The solution</p>
+              <h2 className="text-[30px] sm:text-[40px] font-semibold text-fountor-ink leading-[1.1] tracking-[-0.015em]">
+                Intelligent matching, built for outcomes
+              </h2>
+              <p className="mt-5 text-[16.5px] text-fountor-ink-muted leading-relaxed">
+                Fountor reads your startup's stage, sector, and intent — then scores every investor, grant, and incubator
+                against your real fit. No more spraying decks. No more guessing thesis. Just relevant introductions.
+              </p>
+              <ul className="mt-6 space-y-3">
+                {[
+                  'Stage-aware: pre-seed to growth',
+                  'Sector-mapped to your category',
+                  'Intent-aligned: capital, mentorship, or both',
+                ].map((item) => (
+                  <li key={item} className="flex items-start gap-3 text-[14.5px] text-fountor-ink">
+                    <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-fountor-orange-soft">
+                      <Check className="h-3 w-3 text-fountor-orange" strokeWidth={3} />
+                    </span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Match score visual */}
+            <div className="rounded-2xl border border-fountor-border bg-white p-6 shadow-[0_24px_60px_-30px_oklch(0.18_0.005_270/_0.18)]">
+              <div className="flex items-center justify-between mb-5">
+                <div>
+                  <p className="text-[12px] text-fountor-ink-muted">Match score</p>
+                  <p className="text-[26px] font-semibold text-fountor-ink leading-none mt-1">
+                    96<span className="text-fountor-orange">%</span>
+                  </p>
+                </div>
+                <div className="text-right">
+                  <p className="text-[12px] text-fountor-ink-muted">Investor</p>
+                  <p className="text-[14px] font-medium text-fountor-ink">Omnivore</p>
+                </div>
+              </div>
+              <div className="space-y-3.5">
+                {[
+                  { label: 'Stage', value: 98 },
+                  { label: 'Sector', value: 95 },
+                  { label: 'Intent', value: 94 },
+                ].map((row) => (
+                  <div key={row.label}>
+                    <div className="flex justify-between text-[12.5px] text-fountor-ink-muted mb-1.5">
+                      <span>{row.label}</span>
+                      <span className="text-fountor-ink font-medium">{row.value}%</span>
+                    </div>
+                    <div className="h-1.5 rounded-full bg-fountor-surface overflow-hidden">
+                      <div
+                        className="h-full rounded-full bg-fountor-orange"
+                        style={{ width: `${row.value}%` }}
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
       {/* How it works */}
-      <section className="py-20 sm:py-32 lg:py-40 bg-landing-bg" style={dotGridBg}>
-        <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
-          <div className="mb-16 sm:mb-24">
-            <p className="text-[16px] font-normal text-landing-dark mb-3">How it works</p>
-            <h2 className="text-[32px] sm:text-[40px] lg:text-[48px] font-normal text-landing-dark leading-tight tracking-tight">
-              Get up and running in minutes
+      <section className="py-20 sm:py-28">
+        <div className="mx-auto max-w-[1180px] px-4 sm:px-6 lg:px-8">
+          <div className="max-w-2xl mb-14">
+            <p className="text-[13px] font-medium text-fountor-orange mb-3 uppercase tracking-wide">How it works</p>
+            <h2 className="text-[30px] sm:text-[40px] font-semibold text-fountor-ink leading-[1.1] tracking-[-0.015em]">
+              Three steps to better intros
             </h2>
-            <p className="mt-4 text-[17px] text-landing-light-muted max-w-xl font-normal">
-              Four simple steps to full asset visibility.
-            </p>
           </div>
-          <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-8 sm:grid-cols-3">
             {steps.map((s) => (
-              <div key={s.number} className="relative">
-                <span className="text-[64px] font-normal text-landing-dark/10 leading-none">{s.number}</span>
-                <h3 className="mt-2 text-[18px] font-semibold text-landing-dark">{s.title}</h3>
-                <p className="mt-2 text-[16px] text-landing-light-muted leading-relaxed font-normal">{s.description}</p>
+              <div key={s.num} className="relative">
+                <div className="flex items-center gap-3 mb-4">
+                  <span className="text-[13px] font-mono text-fountor-orange">{s.num}</span>
+                  <div className="h-px flex-1 bg-fountor-border" />
+                  <s.icon className="h-4 w-4 text-fountor-ink-muted" />
+                </div>
+                <h3 className="text-[18px] font-semibold text-fountor-ink">{s.title}</h3>
+                <p className="mt-2 text-[14.5px] text-fountor-ink-muted leading-relaxed">{s.desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Security */}
-      <section className="py-20 sm:py-32 lg:py-40 bg-white">
-        <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
-          <div className="mb-16 sm:mb-24">
-            <p className="text-[16px] font-normal text-landing-dark mb-3">Enterprise security</p>
-            <h2 className="text-[32px] sm:text-[40px] lg:text-[48px] font-normal text-landing-dark leading-tight tracking-tight">
-              Secure & reliable by design
+      {/* Product showcase */}
+      <section className="py-20 sm:py-28 bg-fountor-surface border-y border-fountor-border">
+        <div className="mx-auto max-w-[1180px] px-4 sm:px-6 lg:px-8">
+          <div className="max-w-2xl mb-14">
+            <p className="text-[13px] font-medium text-fountor-orange mb-3 uppercase tracking-wide">Product</p>
+            <h2 className="text-[30px] sm:text-[40px] font-semibold text-fountor-ink leading-[1.1] tracking-[-0.015em]">
+              Everything you need to fundraise smarter
             </h2>
           </div>
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {securityFeatures.map((sf) => (
-              <div key={sf.title} className="rounded-xl border border-landing-grid bg-landing-bg p-6 transition-all hover:border-landing-dark/20">
-                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-landing-dark text-landing-light mb-4">
-                  <sf.icon className="h-5 w-5" />
+          <div className="grid gap-4 sm:grid-cols-2">
+            {showcase.map((s) => (
+              <div key={s.title} className="rounded-2xl border border-fountor-border bg-white p-6 sm:p-7 transition-all hover:shadow-[0_12px_32px_-16px_oklch(0.18_0.005_270/_0.18)]">
+                <div className="flex items-center gap-2.5 mb-2">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-fountor-orange-soft">
+                    <s.icon className="h-4 w-4 text-fountor-orange" strokeWidth={2.2} />
+                  </div>
+                  <h3 className="text-[16px] font-semibold text-fountor-ink">{s.title}</h3>
                 </div>
-                <h3 className="text-[18px] font-semibold text-landing-dark">{sf.title}</h3>
-                <p className="mt-1 text-[16px] text-landing-light-muted leading-relaxed font-normal">{sf.description}</p>
+                <p className="text-[14.5px] text-fountor-ink-muted leading-relaxed mb-5">{s.desc}</p>
+                <div className="rounded-xl bg-fountor-surface border border-fountor-border p-4">
+                  {s.visual}
+                </div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="relative py-24 sm:py-36 lg:py-40 bg-landing-bg overflow-hidden" style={dotGridBg}>
-        <div className="relative mx-auto max-w-[700px] px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-[32px] sm:text-[40px] lg:text-[48px] font-normal text-landing-dark leading-tight tracking-tight">
-            Ready to take control<br className="hidden sm:block" /> of your assets?
+      {/* Final CTA */}
+      <section className="py-24 sm:py-32">
+        <div className="mx-auto max-w-[760px] px-4 sm:px-6 lg:px-8 text-center">
+          <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-fountor-orange-soft mb-6">
+            <Target className="h-5 w-5 text-fountor-orange" strokeWidth={2.2} />
+          </div>
+          <h2 className="text-[30px] sm:text-[42px] font-semibold text-fountor-ink leading-[1.1] tracking-[-0.015em]">
+            Start finding the right investors today
           </h2>
-          <p className="mt-4 text-[17px] text-landing-light-muted max-w-lg mx-auto font-normal">
-            Stop using spreadsheets. Start tracking every asset with a purpose-built tool your team will actually use.
+          <p className="mt-5 text-[16.5px] text-fountor-ink-muted max-w-md mx-auto leading-relaxed">
+            Join the waitlist, or try the live demo and see your matches in under 60 seconds.
           </p>
-          <div className="mt-10">
-            <Link to="/" hash="login" className="inline-block">
-              <Button size="lg" className="rounded-full gap-2 min-h-[48px] bg-landing-dark text-landing-light hover:bg-landing-dark-subtle font-medium text-[15px] px-8">
-                Get started for free <ChevronRight className="h-4 w-4" />
-              </Button>
-            </Link>
+          <div className="mt-9 flex items-center justify-center gap-3 flex-wrap">
+            <PrimaryCTA>Try Demo <ArrowRight className="h-4 w-4" /></PrimaryCTA>
+            <OutlineCTA>Join Waitlist</OutlineCTA>
           </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-landing-grid py-6 sm:py-8 bg-landing-bg">
-        <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-2">
-          <div className="flex items-center gap-2">
-            <Package className="h-4 w-4 text-landing-dark" />
-            <span className="text-[15px] text-landing-light-muted">AssetWise</span>
+      <footer className="border-t border-fountor-border py-8 bg-white">
+        <div className="mx-auto max-w-[1180px] px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <Wordmark />
+          <div className="flex items-center gap-6 text-[13px] text-fountor-ink-muted">
+            <a href="#" className="hover:text-fountor-ink transition-colors">Privacy</a>
+            <a href="#" className="hover:text-fountor-ink transition-colors">Terms</a>
+            <a href="#" className="hover:text-fountor-ink transition-colors">Contact</a>
           </div>
-          <p className="text-xs text-landing-light-muted/60">© {new Date().getFullYear()} All rights reserved.</p>
+          <p className="text-[12.5px] text-fountor-ink-muted">© {new Date().getFullYear()} Fountor</p>
         </div>
       </footer>
     </div>
